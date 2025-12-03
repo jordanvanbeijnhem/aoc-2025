@@ -3,24 +3,17 @@
 namespace App\Console\Commands;
 
 use App\Data\Day2\NumberRangeData;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 
-class Day2Command extends Command
+class Day2Command extends AocCommand
 {
     protected $signature = 'aoc:day2';
 
     protected $description = 'Command description';
 
-    public function handle(): void
+    protected function handlePart1(string $input): void
     {
-        $this->handlePart2();
-    }
-
-    private function handlePart1(): void
-    {
-        $ranges = $this->getNumberRanges();
+        $ranges = $this->getNumberRanges($input);
         $numbersToCheck = $ranges->flatMap(fn (NumberRangeData $range) => $range->getFullRange());
 
         $score = 0;
@@ -40,9 +33,9 @@ class Day2Command extends Command
         $this->info("Sum of invalid IDS: {$score}");
     }
 
-    private function handlePart2(): void
+    protected function handlePart2(string $input): void
     {
-        $ranges = $this->getNumberRanges();
+        $ranges = $this->getNumberRanges($input);
         $numbersToCheck = $ranges->flatMap(fn (NumberRangeData $range) => $range->getFullRange());
 
         $score = 0;
@@ -70,11 +63,20 @@ class Day2Command extends Command
     /**
      * @return Collection<NumberRangeData>
      */
-    private function getNumberRanges(): Collection
+    private function getNumberRanges(string $input): Collection
     {
-        $input = Storage::get('day2.txt');
-        $rangeStrings = collect(explode(',', trim($input)));
+        $rangeStrings = collect(explode(',', $input));
 
         return NumberRangeData::collect($rangeStrings);
+    }
+
+    protected function getPart1FilePath(): string
+    {
+        return 'day2.txt';
+    }
+
+    protected function getPart2FilePath(): string
+    {
+        return 'day2.txt';
     }
 }

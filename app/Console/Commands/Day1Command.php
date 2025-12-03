@@ -4,24 +4,17 @@ namespace App\Console\Commands;
 
 use App\Data\Day1\DialInstructionData;
 use App\Enums\Day1\DialDirection;
-use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Storage;
 
-class Day1Command extends Command
+class Day1Command extends AocCommand
 {
     protected $signature = 'aoc:day1';
 
     protected $description = 'Command description';
 
-    public function handle(): void
+    protected function handlePart1(string $input): void
     {
-        $this->handlePart2();
-    }
-
-    private function handlePart1(): void
-    {
-        $instructions = $this->getInstructions();
+        $instructions = $this->getInstructions($input);
 
         $currentPosition = 50;
         $positionZeroCount = 0;
@@ -41,9 +34,9 @@ class Day1Command extends Command
         $this->info("Total times at position zero: {$positionZeroCount}");
     }
 
-    private function handlePart2(): void
+    protected function handlePart2(string $input): void
     {
-        $instructions = $this->getInstructions();
+        $instructions = $this->getInstructions($input);
 
         $currentPosition = 50;
         $positionZeroCount = 0;
@@ -70,10 +63,9 @@ class Day1Command extends Command
     /**
      * @return Collection<DialInstructionData>
      */
-    private function getInstructions(): Collection
+    private function getInstructions(string $input): Collection
     {
-        $input = Storage::get('day1.txt');
-        $lines = collect(explode("\n", rtrim($input)));
+        $lines = $this->getLines($input);
 
         return DialInstructionData::collect($lines);
     }
@@ -98,5 +90,15 @@ class Day1Command extends Command
         }
 
         return $position;
+    }
+
+    protected function getPart1FilePath(): string
+    {
+        return 'day1.txt';
+    }
+
+    protected function getPart2FilePath(): string
+    {
+        return 'day1.txt';
     }
 }
