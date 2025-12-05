@@ -21,6 +21,11 @@ class NumberRangeData extends Data
         return range($this->start, $this->end);
     }
 
+    public function containsValue(int $value): bool
+    {
+        return $value >= $this->start && $value <= $this->end;
+    }
+
     public static function fromString(string $range): self
     {
         [$start, $end] = explode('-', $range);
