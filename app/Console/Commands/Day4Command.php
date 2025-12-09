@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Data\Day4\PaperRollGrid;
+use App\Data\Day4\GridData;
 use Exception;
 
 class Day4Command extends AocCommand
@@ -25,7 +25,7 @@ class Day4Command extends AocCommand
     protected function handlePart1(string $input): void
     {
         $lines = $this->getLines($input);
-        $grid = PaperRollGrid::from($lines);
+        $grid = GridData::from($lines);
 
         $reachableRollCount = 0;
         $grid->each(function (string $cellValue, int $x, int $y) use ($grid, &$reachableRollCount): void {
@@ -60,7 +60,7 @@ class Day4Command extends AocCommand
     protected function handlePart2(string $input): void
     {
         $lines = $this->getLines($input);
-        $grid = PaperRollGrid::from($lines);
+        $grid = GridData::from($lines);
 
         $reachableRollCount = 0;
         while (true) {

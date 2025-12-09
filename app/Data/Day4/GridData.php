@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Support\Collection;
 use Spatie\LaravelData\Data;
 
-class PaperRollGrid extends Data
+class GridData extends Data
 {
     public function __construct(
         public int $width,
@@ -60,6 +60,20 @@ class PaperRollGrid extends Data
     private function isInBounds(int $x, int $y): bool
     {
         return $x >= 0 && $x < $this->width && $y >= 0 && $y < $this->height;
+    }
+
+    /**
+     * @return Collection<int, string>
+     *
+     * @throws Exception
+     */
+    public function getRow(int $y): Collection
+    {
+        if (! $this->isInBounds(0, $y)) {
+            throw new Exception("Row {$y} is out of bounds (height: {$this->height})");
+        }
+
+        return $this->grid->get($y);
     }
 
     /**
